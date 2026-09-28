@@ -95,6 +95,8 @@ disabled>
 
 <button onclick="startTest()">▶️ Commencer</button>
 
+<button onclick="newText()">📝 Nouveau texte</button>
+
 <button onclick="restartTest()">🔄 Recommencer</button>
 
 <div id="result">
@@ -107,40 +109,76 @@ Choisis un niveau puis commence le test.
 
 const texts = {
 
-beginner:
+beginner: [
 "Je tape sur mon clavier pour apprendre la dactylographie.",
+"Le clavier est utile pour écrire des textes sur un ordinateur.",
+"Je pratique chaque jour pour améliorer ma vitesse.",
+"J'apprends à utiliser mon ordinateur avec confiance.",
+"La dactylographie demande de la patience et de la pratique."
+],
 
-medium:
+medium: [
 "Apprendre à taper rapidement au clavier demande de la pratique et de la concentration.",
+"Un bon utilisateur d'ordinateur doit connaître les principales touches du clavier.",
+"La pratique régulière permet d'améliorer progressivement la vitesse et la précision.",
+"Je veux apprendre la dactylographie afin de travailler plus rapidement sur mes documents.",
+"Un clavier bien maîtrisé permet de saisir facilement des lettres, des chiffres et des symboles."
+],
 
-advanced:
-"La maîtrise de la dactylographie permet de travailler efficacement sur un ordinateur et de gagner beaucoup de temps."
+advanced: [
+"La maîtrise de la dactylographie permet de travailler efficacement sur un ordinateur et de gagner beaucoup de temps.",
+"Une bonne vitesse de frappe associée à une excellente précision peut faciliter la réalisation de nombreux travaux professionnels.",
+"La dactylographie est une compétence importante pour les personnes qui utilisent régulièrement un ordinateur pour leurs études ou leur travail.",
+"Pour progresser rapidement, il est préférable de pratiquer régulièrement plutôt que de chercher uniquement à taper très vite.",
+"Une personne qui maîtrise son clavier peut se concentrer davantage sur ses idées sans être constamment interrompue par la recherche des touches."
+]
 
 };
 
 let startTime;
 let testStarted = false;
+let text = "";
 
 const textElement = document.getElementById("text");
 const input = document.getElementById("input");
 const result = document.getElementById("result");
 const level = document.getElementById("level");
 
-let text = texts.beginner;
+function chooseRandomText() {
 
-textElement.innerText = text;
+    const list = texts[level.value];
+
+    const randomIndex =
+        Math.floor(Math.random() * list.length);
+
+    text = list[randomIndex];
+
+    textElement.innerText = text;
+}
 
 function changeLevel() {
 
-    text = texts[level.value];
-
-    textElement.innerText = text;
+    chooseRandomText();
 
     input.value = "";
     input.disabled = true;
 
     result.innerHTML =
-        "Niveau sélectionné : " + level.options[level.selectedIndex].text;
+        "Niveau sélectionné : " +
+        level.options[level.selectedIndex].text;
+
+    testStarted = false;
+}
+
+function newText() {
+
+    chooseRandomText();
+
+    input.value = "";
+    input.disabled = true;
+
+    result.innerHTML =
+        "📝 Nouveau texte sélectionné !";
 
     testStarted = false;
 }
@@ -211,6 +249,8 @@ function restartTest() {
 
     testStarted = false;
 }
+
+chooseRandomText();
 
 </script>
 
