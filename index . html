@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dactylo Tchad</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f2f2f2;
+    text-align: center;
+    padding: 30px;
+}
+
+.container {
+    max-width: 700px;
+    margin: auto;
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+}
+
+h1 {
+    color: #222;
+}
+
+#text {
+    font-size: 20px;
+    padding: 20px;
+    background: #eee;
+    border-radius: 10px;
+    margin: 20px 0;
+}
+
+textarea {
+    width: 95%;
+    height: 120px;
+    font-size: 18px;
+    padding: 10px;
+}
+
+button {
+    margin-top: 15px;
+    padding: 12px 25px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#result {
+    margin-top: 20px;
+    font-size: 18px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>⌨️ Dactylo Tchad</h1>
+
+<p>Teste ta vitesse de frappe !</p>
+
+<div id="text">
+Le clavier est un outil important pour apprendre à utiliser un ordinateur.
+</div>
+
+<textarea id="input" placeholder="Commence à taper le texte ici..."></textarea>
+
+<br>
+
+<button onclick="startTest()">Commencer</button>
+
+<div id="result"></div>
+
+</div>
+
+<script>
+let startTime;
+
+function startTest() {
+    const input = document.getElementById("input");
+    const text = document.getElementById("text").innerText;
+
+    input.value = "";
+    input.focus();
+    startTime = new Date();
+
+    input.oninput = function() {
+        if (input.value === text) {
+
+            const endTime = new Date();
+            const seconds = (endTime - startTime) / 1000;
+            const words = text.trim().split(/\s+/).length;
+            const speed = Math.round(words / (seconds / 60));
+
+            document.getElementById("result").innerHTML =
+                "🎉 Test terminé !<br>" +
+                "Vitesse : " + speed + " mots/minute<br>" +
+                "Temps : " + seconds.toFixed(1) + " secondes";
+        }
+    };
+}
+</script>
+
+</body>
+</html>
