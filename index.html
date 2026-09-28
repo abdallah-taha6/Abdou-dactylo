@@ -27,8 +27,11 @@ h1 {
     font-size: 32px;
 }
 
-.instructions {
-    font-size: 18px;
+select {
+    padding: 10px;
+    font-size: 17px;
+    border-radius: 8px;
+    margin: 10px;
 }
 
 .text-to-type {
@@ -72,13 +75,15 @@ button {
 
 <h1>⌨️ Dactylo Tchad</h1>
 
-<p class="instructions">
-Recopie le texte ci-dessous le plus rapidement possible.
-</p>
+<p>Choisis ton niveau :</p>
 
-<div class="text-to-type" id="text">
-Le clavier est un outil important pour apprendre à utiliser un ordinateur.
-</div>
+<select id="level" onchange="changeLevel()">
+    <option value="beginner">🟢 Débutant</option>
+    <option value="medium">🟡 Intermédiaire</option>
+    <option value="advanced">🔴 Avancé</option>
+</select>
+
+<div class="text-to-type" id="text"></div>
 
 <textarea
 id="input"
@@ -93,19 +98,52 @@ disabled>
 <button onclick="restartTest()">🔄 Recommencer</button>
 
 <div id="result">
-Le test n'a pas encore commencé.
+Choisis un niveau puis commence le test.
 </div>
 
 </div>
 
 <script>
 
+const texts = {
+
+beginner:
+"Je tape sur mon clavier pour apprendre la dactylographie.",
+
+medium:
+"Apprendre à taper rapidement au clavier demande de la pratique et de la concentration.",
+
+advanced:
+"La maîtrise de la dactylographie permet de travailler efficacement sur un ordinateur et de gagner beaucoup de temps."
+
+};
+
 let startTime;
 let testStarted = false;
 
-const text = document.getElementById("text").innerText;
+const textElement = document.getElementById("text");
 const input = document.getElementById("input");
 const result = document.getElementById("result");
+const level = document.getElementById("level");
+
+let text = texts.beginner;
+
+textElement.innerText = text;
+
+function changeLevel() {
+
+    text = texts[level.value];
+
+    textElement.innerText = text;
+
+    input.value = "";
+    input.disabled = true;
+
+    result.innerHTML =
+        "Niveau sélectionné : " + level.options[level.selectedIndex].text;
+
+    testStarted = false;
+}
 
 function startTest() {
 
@@ -116,7 +154,8 @@ function startTest() {
     startTime = new Date();
     testStarted = true;
 
-    result.innerHTML = "⌨️ Tape le texte ci-dessus...";
+    result.innerHTML =
+        "⌨️ Tape le texte ci-dessus...";
 
 }
 
@@ -168,7 +207,7 @@ function restartTest() {
     input.disabled = true;
 
     result.innerHTML =
-        "Le test n'a pas encore commencé.";
+        "Prêt pour un nouveau test.";
 
     testStarted = false;
 }
